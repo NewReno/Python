@@ -1,15 +1,19 @@
 import smtplib
 from dotenv import load_dotenv
+from pathlib import Path
+import os
 
-email_from = "antony.noone@yandex.ru"
-email_to = "antony.noone@yandex.ru"
-mail_subject = "Приглашение!"
-mail_contentType = """text/plain; charset="UTF-8";"""
+load_dotenv()
 
-message = """
+friend_name = "friend"
+site_name = "https://dvmn.org/profession-ref-program/"
+sender_name = "tony"
+email_from = 'antony.noone@yandex.ru'
+email_to = 'tony.noone@yandex.ru'
 
-From: antony.noone@yandex.ru
-To: antony.noone@yandex.ru
+letter = """\
+From: {email_from}
+To: {email_to}
 Subject: Приглашение!
 Content-Type: text/plain; charset="UTF-8";
 
@@ -28,19 +32,12 @@ Content-Type: text/plain; charset="UTF-8";
 Все проекты — они же решение наших задачек — можно разместить на твоём GitHub. Работодатели такое оценят. 
 
 Регистрируйся → %website%  
-На курсы, которые еще не вышли, можно подписаться и получить уведомление о релизе сразу на имейл."""
+На курсы, которые еще не вышли, можно подписаться и получить уведомление о релизе сразу на имейл.""".format(email_from=email_from, email_to=email_to)
 
+letter = letter.replace("%friend_name%", friend_name).replace("%website%", site_name).replace("%my_name%", sender_name)
+letter = letter.encode("UTF-8")
 
-friend_name = "friend"
-site_name = "https://dvmn.org/profession-ref-program/"
-sender_name = "tony"
-
-
-# print(mail_from, mail_to, mail_subject, mail_contentType, letter.replace("%friend_name%", friend_name).replace("%website%", site_name).replace("%my_name%", sender_name), sep="\n")
-
-
-message = message.encode("UTF-8")
 server = smtplib.SMTP_SSL('smtp.yandex.ru:465')
-server.login()
-server.sendmail(email_from, email_to, message)
+server.login(os.environ['EMAIL_LOGIN'], os.environ['EMAIL_PASS'])
+server.sendmail(email_from, email_to, letter)
 server.quit()
