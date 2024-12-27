@@ -4,18 +4,7 @@ import random
 import os
 from pathlib import Path
 
-
-base_path = Path(__file__).absolute().parent
-output_dir = f"{base_path}/output/svg/"
-
-
-def transform_string(letter):
-    for key, value in letter_mapping.items():
-        letter = letter.replace(key, value)
-    return letter
-
-
-letter_mapping = {
+LETTER_MAPPING = {
     'а': 'а͠',
     'б': 'б̋',
     'в': 'в͒͠',
@@ -85,7 +74,7 @@ letter_mapping = {
     ' ': ' '
 }
 
-skills = [
+SKILLS = [
     "Стремительный прыжок",
     "Электрический выстрел",
     "Ледяной удар",
@@ -97,10 +86,18 @@ skills = [
 ]
 
 
+def transform_string(letter):
+    for key, value in LETTER_MAPPING.items():
+        letter = letter.replace(key, value)
+    return letter
+
+
 def main():
     for i in range(10):
         fake = Faker("ru_RU")
-        runic_skills = [transform_string(skill) for skill in skills]
+        base_path = Path(__file__).absolute().parent
+        output_dir = f"{base_path}/output/svg/"
+        runic_skills = [transform_string(skill) for skill in SKILLS]
         runic_skills = random.sample(runic_skills, k=3)
         chars = {
             "first_name": fake.first_name_female(),
