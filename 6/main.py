@@ -20,13 +20,18 @@ def has_symbols(password):
 
 def main():
     password = input("Введите пароль: ")
-    functions = [has_digit, is_very_long, has_lower_letters, has_upper_letters, has_symbols]
+    functions = [
+        has_digit,
+        is_very_long, 
+        has_lower_letters,
+        has_upper_letters,
+        has_symbols
+        ]
     score = 0
     for function in functions:
         result = function(password)
         if result:
             score = score + 2
-        print(result)
     print("Рейтинг пароля:", score)
 
 
