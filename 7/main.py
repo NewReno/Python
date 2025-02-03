@@ -5,10 +5,11 @@ from telegram import Bot, Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
 
 
-load_dotenv()
-
-
-TG_TOKEN = os.getenv("TG_TOKEN")
+def load_config():
+    load_dotenv()
+    return {
+        "TG_TOKEN": os.getenv("TG_TOKEN"),
+    }
 
 
 def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='█', zfill='░'):
@@ -82,6 +83,8 @@ def reply(update: Update, context: CallbackContext):
 
 
 def main():
+    config = load_config()
+    TG_TOKEN = config["TG_TOKEN"]
     updater = Updater(TG_TOKEN, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, reply))
