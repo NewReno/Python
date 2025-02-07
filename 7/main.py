@@ -1,14 +1,14 @@
 import os
 from dotenv import load_dotenv
 from pytimeparse import parse
-from telegram import Bot, Update
+from telegram import Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
 
 
 def load_config():
     load_dotenv()
     return {
-        "TG_TOKEN": os.getenv("TG_TOKEN"),
+        "tg_token": os.getenv("TG_TOKEN"),
     }
 
 
@@ -30,7 +30,6 @@ def update_countdown(context: CallbackContext):
     message_id = job.context["message_id"]
     remaining_time = job.context["remaining_time"]
     total_seconds = job.context["total_seconds"]
-
     if remaining_time > 0:
         elapsed_time = total_seconds - remaining_time
         progress_bar = render_progressbar(
@@ -84,8 +83,8 @@ def reply(update: Update, context: CallbackContext):
 
 def main():
     config = load_config()
-    TG_TOKEN = config["TG_TOKEN"]
-    updater = Updater(TG_TOKEN, use_context=True)
+    tg_token = config["tg_token"]
+    updater = Updater(tg_token, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, reply))
     updater.start_polling()
