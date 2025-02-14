@@ -4,7 +4,6 @@ import requests
 from pathlib import Path
 from dotenv import load_dotenv
 from geopy import distance
-from pprint import pprint
 import folium
 
 
@@ -31,7 +30,6 @@ def main():
     apikey = os.getenv('YANDEX_API_KEY')
     user_address = input("Где вы находитесь? ")
     user_coords = fetch_coordinates(apikey, user_address)
-    print(f"Ваши координаты: {user_coords[1]}, {user_coords[0]}")
     base_path = Path(__file__).absolute().parent
     file_path = base_path / 'coffee.json'
     with open(file_path, 'r', encoding='windows-1251') as file:
@@ -51,9 +49,6 @@ def main():
             })
         sorted_coffee_shops = sorted(coffee_shops, key=get_distance)
         nearest_five_coffee_shops = sorted_coffee_shops[:5]
-        print("5 ближайших кофеен:")
-        for coffee in nearest_five_coffee_shops:
-            pprint(coffee)
         map_center = (user_coords[0], user_coords[1])
         m = folium.Map(location=map_center, zoom_start=15)
         folium.Marker(
