@@ -1,16 +1,18 @@
 import requests
 
-url = 'https://wttr.in/london?nTqu'
-response = requests.get(url)
-response.raise_for_status()
-print(response.text)
 
-url = 'https://wttr.in/Cherepovets?nTqu'
-response = requests.get(url)
-response.raise_for_status()
-print(response.text)
+def get_weather(town):
+    payload = {"nTqM": "", "lang": "ru"}
+    url_with_town = f'https://wttr.in/{town}'
+    response = requests.get(url_with_town, params=payload)
+    response.raise_for_status()
+    return response.text
 
-url = 'https://wttr.in/Череповец?nTqM&lang=ru'
-response = requests.get(url)
-response.raise_for_status()
-print(response.text)
+
+def main():
+    town_weather = get_weather("Череповец")
+    print(town_weather)
+
+
+if __name__ == "__main__":
+    main()
