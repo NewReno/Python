@@ -1,0 +1,5 @@
+.env
+.venv
+Test
+__pycache__
+Debug
