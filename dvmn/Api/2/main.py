@@ -3,7 +3,13 @@ import requests
 import sys
 from dotenv import load_dotenv
 from urllib.parse import urlparse
-    
+import argparse
+
+
+def createParser ():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', help="URL для обработки")
+    return parser
 
 def is_shorten_link(token, url):
     key = url.split('/')[-1]
@@ -56,7 +62,10 @@ def main():
         token = os.environ["VK_API_TOKEN"]
     except KeyError:
         sys.exit("Ошибка: VK_API_TOKEN не найден в переменных окружения")
-    user_input = input("Введите ссылку: ").strip()
+    # user_input = input("Введите ссылку: ").strip()
+    parser = createParser()
+    args = parser.parse_args()
+    user_input = args.url.strip()
     try:
         if is_shorten_link(token, user_input):
             print("Проверка статистики...")
